@@ -291,7 +291,7 @@ class MySamPredictor(nn.Module):
         self.input_w = None
 
     def forward(self, image: np.ndarray, point_coords: np.ndarray, point_labels: np.ndarray,
-                gt_mask: Tensor):
+                gt_mask: Tensor = None):
         """
         Predict segmentation masks from an image based on point coordinates and labels using SAM model.
 
@@ -320,8 +320,8 @@ class MySamPredictor(nn.Module):
             multimask_output=True,
             return_logits=True
         )
-
-        # fake_gt_mask = torch.zeros_like(gt_mask)
+        if gt_mask == None:
+            gt_mask = torch.zeros_like(masks[:1])
 
         # Calculate the loss
         loss = F.mse_loss(masks[:1], gt_mask)
