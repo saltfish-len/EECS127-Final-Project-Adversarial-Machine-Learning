@@ -321,10 +321,10 @@ class MySamPredictor(nn.Module):
             return_logits=True
         )
 
-        fake_gt_mask = torch.zeros_like(gt_mask)
+        # fake_gt_mask = torch.zeros_like(gt_mask)
 
         # Calculate the loss
-        loss = F.mse_loss(masks[:1], fake_gt_mask)
+        loss = F.mse_loss(masks[:1], gt_mask)
         loss.backward()
 
         return masks[0], input_image
